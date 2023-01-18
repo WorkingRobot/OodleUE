@@ -1,0 +1,73 @@
+name: Build
+
+on:
+  workflow_run:
+    workflows: [Gitdeps]
+    types: [completed]
+
+jobs:
+  Build:
+    strategy:
+      fail-fast: false
+      matrix:
+        configure-preset: [msvc, clang-cl]
+        build-preset: [debug, release]
+        os: [windows-2022]
+        include:
+        - configure-preset: clang-cl
+          llvm-version: "15.0.0"
+
+    runs-on: ${{matrix.os}}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Cache LLVM and Clang
+      id: cache-llvm
+      if: ${{ matrix.configure-preset == 'clang-cl' }}
+      uses: actions/cache@v3
+      with:
+        path: C:/Program Files/LLVM
+        key: llvm-${{matrix.llvm-version}}
+
+    - name: Install LLVM and Clang
+      if: ${{ matrix.configure-preset == 'clang-cl' }}
+      uses: KyleMayes/install-llvm-action@v1
+      with:
+        version: ${{matrix.llvm-version}}
+        force-version: true
+        cached: ${{ steps.cache-llvm.outputs.cache-hit }}
+
+    - name: Run CMake
+      uses: lukka/run-cmake@v10
+      with:
+        cmakeListsTxtPath: 'build/CMakeLists.txt'
+        configurePreset: '${{matrix.configure-preset}}'
+        buildPreset: '${{matrix.configure-preset}}-${{matrix.build-preset}}'
+
+    - name: Zip Artifacts
+      shell: pwsh
+      run: |
+        # Delete all empty directories (prevents empty Debug/Release folders from showing up when they're not built)
+        Get-ChildItem "${{github.workspace}}/builds/${{matrix.configure-preset}}" -Recurse -Force -Directory |
+          Sort-Object -Property FullName -Descending |
+          Where-Object { $($_ | Get-ChildItem -Force | Select-Object -First 1).Count -eq 0 } |
+          Remove-Item
+
+        # Compress binaries
+        $compress = @{
+          LiteralPath =
+            "${{github.workspace}}/builds/${{matrix.configure-preset}}/ar/",
+            "${{github.workspace}}/builds/${{matrix.configure-preset}}/lib/",
+            "${{github.workspace}}/builds/${{matrix.configure-preset}}/bin/"
+          Force = $true
+          DestinationPath = "${{matrix.configure-preset}}-${{matrix.build-preset}}.zip"
+        }
+        Compress-Archive @compress
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{matrix.configure-preset}}-${{matrix.build-preset}}
+        path: ${{matrix.configure-preset}}-${{matrix.build-preset}}.zip
