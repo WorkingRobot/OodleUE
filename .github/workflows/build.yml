@@ -10,9 +10,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: [windows-2022]
         configure-preset: [msvc, clang-cl]
         build-preset: [debug, release]
-        os: [windows-2022]
         include:
         - configure-preset: clang-cl
           llvm-version: "15.0.0"
@@ -39,14 +39,11 @@ jobs:
         force-version: true
         cached: ${{ steps.cache-llvm.outputs.cache-hit }}
 
-    - name: Get CMake
-      uses: lukka/get-cmake@latest
-
     - name: Run Vcpkg
       uses: lukka/run-vcpkg@v10
       with:
         vcpkgGitCommitId: '1370b2c88f1e683c5c6a2465133eaa9a9b3ee679'
-        vcpkgJsonGlob: 'vcpkg.json'
+        vcpkgJsonGlob: 'build/vcpkg.json'
 
     - name: Run CMake
       uses: lukka/run-cmake@v10
