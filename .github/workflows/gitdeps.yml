@@ -13,6 +13,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      persist-credentials: false
+      fetch-depth: 0
+
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
@@ -32,15 +35,22 @@ jobs:
     - name: Upload Commit.gitdeps.xml
       uses: actions/upload-artifact@v3
       with:
-        name: Gitdeps
+        name: Commit.gitdeps.xml
         path: unreal/Engine/Build/Commit.gitdeps.xml
 
-    - run: python download_oodle.py
+    - name: Upload Oodle Dependencies
+      run: python download_oodle.py
 
-    - run: |
+    - name: Upload Oodle Dependencies
+      run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
           git commit -m "Oodle Update"
-          git push
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.PAT_TOKEN }}
+        branch: ${{ github.ref }}
 
