@@ -1,9 +1,8 @@
 # OodleUE
----
 
 Despite being one of the best compression libraries out there, Oodle is notoriously difficult to obtain. This repository is updated daily with the latest Oodle builds for Unreal Engine.
 
-## Usage
+---
 
 **By using these assets, you agree to the [Unreal Engine EULA](https://www.unrealengine.com/eula/unreal). I take zero ownership of any code or build artifacts that are retrieved from Epic's servers and Git repository.**
 
