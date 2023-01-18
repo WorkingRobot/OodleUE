@@ -3,16 +3,28 @@ name: Gitdeps
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   Gitdeps:      
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 'pypy3.9'
+        cache: 'pip'
+    - name: Install Python Dependencies
+      run: pip install requests
+
     - name: Checkout Unreal Engine
       uses: actions/checkout@v3
       with:
-        ref: master
+        ref: release
         repository: EpicGames/UnrealEngine
         token: ${{ secrets.PAT_TOKEN }}
         path: unreal
@@ -22,3 +34,13 @@ jobs:
       with:
         name: Gitdeps
         path: unreal/Engine/Build/Commit.gitdeps.xml
+
+    - run: python download_oodle.py
+
+    - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Oodle Update"
+          git push
+
