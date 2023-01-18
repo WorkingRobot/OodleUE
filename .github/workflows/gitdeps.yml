@@ -26,10 +26,26 @@ jobs:
     - name: Install Python Dependencies
       run: pip install -r requirements.txt
 
+    - name: Get Unreal Engine Ref
+      uses: octokit/request-action@v2.x
+      id: get-unreal-ref
+      with:
+        route: GET /repos/EpicGames/UnrealEngine/branches/release
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+    - name: Cache Unreal Engine
+      id: cache-unreal
+      uses: actions/cache@v3
+      with:
+        path: unreal
+        key: ${{ runner.os }}-unreal-${{ fromJson(steps.get-unreal-ref.outputs.data).commit.sha }}
+
     - name: Checkout Unreal Engine
+      if: steps.cache-unreal.outputs.cache-hit != 'true'
       uses: actions/checkout@v3
       with:
-        ref: release
+        ref: ${{ fromJson(steps.get-unreal-ref.outputs.data).commit.sha }}
         repository: EpicGames/UnrealEngine
         token: ${{ secrets.PAT_TOKEN }}
         path: unreal
