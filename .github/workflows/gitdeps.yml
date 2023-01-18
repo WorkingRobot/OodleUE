@@ -22,6 +22,7 @@ jobs:
       with:
         python-version: 'pypy3.9'
         cache: 'pip'
+
     - name: Install Python Dependencies
       run: pip install -r requirements.txt
 
@@ -39,19 +40,17 @@ jobs:
         name: Commit.gitdeps.xml
         path: unreal/Engine/Build/Commit.gitdeps.xml
 
-    - name: Upload Oodle Dependencies
+    - name: Download Oodle Dependencies
       run: python download_oodle.py
 
-    - name: Upload Oodle Dependencies
+    - name: Commit Changes
       run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
           git add .
-          git commit -m "Oodle Update"
+          git commit -m "Automatic Update"
 
-    - name: Push changes
+    - name: Push Changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.PAT_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
 
