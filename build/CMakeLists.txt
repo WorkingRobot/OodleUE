@@ -11,7 +11,8 @@ FetchContent_MakeAvailable(smake)
 
 ## Project Definition ##
 
-project(oodle VERSION 2.9.8 LANGUAGES C CXX)
+s_get_version_info(DEFAULT_BRANCH "main")
+project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES C CXX)
 
 message(STATUS "Compiling ${PROJECT_NAME} ${PROJECT_VERSION} for ${CMAKE_SYSTEM_NAME}")
 

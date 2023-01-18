@@ -39,7 +39,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: unreal
-        key: ${{ runner.os }}-unreal-${{ fromJson(steps.get-unreal-ref.outputs.data).commit.sha }}
+        key: unreal-${{ fromJson(steps.get-unreal-ref.outputs.data).commit.sha }}
 
     - name: Checkout Unreal Engine
       if: steps.cache-unreal.outputs.cache-hit != 'true'

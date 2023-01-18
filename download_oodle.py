@@ -5,7 +5,7 @@ from concurrent.futures import as_completed
 from requests_futures.sessions import FuturesSession
 
 print("Moving gitdeps", flush=True)
-os.replace("unreal/Engine/Build/Commit.gitdeps.xml", "Commit.gitdeps.xml")
+shutil.copy("unreal/Engine/Build/Commit.gitdeps.xml", "Commit.gitdeps.xml")
 
 print("Parsing gitdeps", flush=True)
 manifest = ET.parse("Commit.gitdeps.xml").getroot()

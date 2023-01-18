@@ -29,7 +29,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: C:/Program Files/LLVM
-        key: llvm-${{matrix.llvm-version}}
+        key: ${{ runner.os }}-llvm-${{matrix.llvm-version}}
 
     - name: Install LLVM and Clang
       if: ${{ matrix.configure-preset == 'clang-cl' }}
@@ -38,6 +38,15 @@ jobs:
         version: ${{matrix.llvm-version}}
         force-version: true
         cached: ${{ steps.cache-llvm.outputs.cache-hit }}
+
+    - name: Get CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Run Vcpkg
+      uses: lukka/run-vcpkg@v10
+      with:
+        vcpkgGitCommitId: '1370b2c88f1e683c5c6a2465133eaa9a9b3ee679'
+        vcpkgJsonGlob: 'vcpkg.json'
 
     - name: Run CMake
       uses: lukka/run-cmake@v10
