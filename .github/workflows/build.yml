@@ -64,7 +64,8 @@ jobs:
         # Compress binaries
         $compress = @{
           LiteralPath =
-            "${{github.workspace}}/build/builds/${{matrix.configure-preset}}/ar/"
+            "${{github.workspace}}/build/builds/${{matrix.configure-preset}}/ar/",
+            "${{github.workspace}}/build/builds/${{matrix.configure-preset}}/lib/"
           Force = $true
           DestinationPath = "${{matrix.configure-preset}}-${{matrix.build-preset}}.zip"
         }
