@@ -59,7 +59,7 @@ jobs:
       shell: pwsh
       run: |
         # Delete all empty directories (prevents empty Debug/Release folders from showing up when they're not built)
-        Get-ChildItem "${{github.workspace}}/builds/${{matrix.configure-preset}}" -Recurse -Force -Directory |
+        Get-ChildItem "${{github.workspace}}/build/builds/${{matrix.configure-preset}}" -Recurse -Force -Directory |
           Sort-Object -Property FullName -Descending |
           Where-Object { $($_ | Get-ChildItem -Force | Select-Object -First 1).Count -eq 0 } |
           Remove-Item
@@ -67,9 +67,9 @@ jobs:
         # Compress binaries
         $compress = @{
           LiteralPath =
-            "${{github.workspace}}/builds/${{matrix.configure-preset}}/ar/",
-            "${{github.workspace}}/builds/${{matrix.configure-preset}}/lib/",
-            "${{github.workspace}}/builds/${{matrix.configure-preset}}/bin/"
+            "${{github.workspace}}/build/builds/${{matrix.configure-preset}}/ar/",
+            "${{github.workspace}}/build/builds/${{matrix.configure-preset}}/lib/",
+            "${{github.workspace}}/build/builds/${{matrix.configure-preset}}/bin/"
           Force = $true
           DestinationPath = "${{matrix.configure-preset}}-${{matrix.build-preset}}.zip"
         }
