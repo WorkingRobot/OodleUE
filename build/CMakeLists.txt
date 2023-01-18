@@ -8,6 +8,7 @@ FetchContent_Declare(
   GIT_TAG        d8b2f8bac5df81035871c990a88e49a537d38660
 )
 FetchContent_MakeAvailable(smake)
+include(${smake_SOURCE_DIR}/smake.cmake)
 
 ## Project Definition ##
 
