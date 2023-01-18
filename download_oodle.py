@@ -30,26 +30,27 @@ for pack in manifest.find("Packs"):
             break
 
 print("Grabbing files", flush=True)
+idx = 0
 for pack in packs:
-    packData = gzip.decompress(requests.get("%s/%s/%s" % (manifest.attrib["BaseUrl"], pack.attrib["RemotePath"], pack.attrib["Hash"])).content)
+    idx += 1
+    pack_data = gzip.decompress(requests.get("%s/%s/%s" % (manifest.attrib["BaseUrl"], pack.attrib["RemotePath"], pack.attrib["Hash"])).content)
     for blob in blobs:
         if blob.attrib["PackHash"] == pack.attrib["Hash"]:
-            Size = int(blob.attrib["Size"])
-            Offset = int(blob.attrib["PackOffset"])
-            FileName = None
+            file_name = None
             for file in files:
                 if file.attrib["Hash"] == blob.attrib["Hash"]:
-                    FileName = file.attrib["Name"]
+                    file_name = file.attrib["Name"]
                     break
-            if not FileName:
+            if not file_name:
                 continue
-            print(FileName, flush=True)
-            os.makedirs(os.path.dirname(FileName), exist_ok=True)
-            with open(FileName, "wb") as f:
-                f.write(packData[Offset:Offset + Size])
+            size = int(blob.attrib["Size"])
+            offset = int(blob.attrib["PackOffset"])
+            os.makedirs(os.path.dirname(file_name), exist_ok=True)
+            with open(file_name, "wb") as f:
+                f.write(pack_data[offset:offset + size])
+            print("%s (%d/%d)" % (file_name, idx, len(packs)), flush=True)
 
 print("Moving includes", flush=True)
-os.replace("unreal/Engine/Build/Commit.gitdeps.xml", "Commit.gitdeps.xml")
 shutil.copytree("unreal/Engine/Source/Runtime/OodleDataCompression/Sdks", "Engine/Source/Runtime/OodleDataCompression/Sdks", dirs_exist_ok=True)
 shutil.copytree("unreal/Engine/Plugins/Developer/TextureFormatOodle/Sdks", "Engine/Plugins/Developer/TextureFormatOodle/Sdks", dirs_exist_ok=True)
 shutil.copytree("unreal/Engine/Plugins/Compression/OodleNetwork/Sdks", "Engine/Plugins/Compression/OodleNetwork/Sdks", dirs_exist_ok=True)
