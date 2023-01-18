@@ -34,19 +34,15 @@ jobs:
         token: ${{ secrets.PAT_TOKEN }}
         path: unreal
 
-    - name: Upload Commit.gitdeps.xml
-      uses: actions/upload-artifact@v3
-      with:
-        name: Commit.gitdeps.xml
-        path: unreal/Engine/Build/Commit.gitdeps.xml
-
     - name: Download Oodle Dependencies
       run: python download_oodle.py
 
     - name: Commit Changes
       run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add .
-          git commit -m "Automatic Update"
+          git commit -m "Automatic Update" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
 
     - name: Push Changes
       uses: ad-m/github-push-action@master
