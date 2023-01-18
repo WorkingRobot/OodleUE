@@ -45,6 +45,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(oodle_data oodle_texture oodle_network)
 
+file(COPY ${oodle_texture_SOURCE_DIR}/texture DESTINATION ${oodle_data_SOURCE_DIR})
+file(COPY ${oodle_network_SOURCE_DIR}/network DESTINATION ${oodle_data_SOURCE_DIR})
+
 ## Add projects ##
 
 add_subdirectory(data)
