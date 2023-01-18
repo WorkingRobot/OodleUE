@@ -1,13 +1,10 @@
 import requests, gzip, os, shutil
 import xml.etree.ElementTree as ET
 
-print("Moving", flush=True)
+print("Moving gitdeps", flush=True)
 os.replace("unreal/Engine/Build/Commit.gitdeps.xml", "Commit.gitdeps.xml")
-shutil.copytree("unreal/Engine/Source/Runtime/OodleDataCompression/Sdks", "Engine/Source/Runtime/OodleDataCompression/Sdks", dirs_exist_ok=True)
-shutil.copytree("unreal/Engine/Plugins/Developer/TextureFormatOodle/Sdks", "Engine/Plugins/Developer/TextureFormatOodle/Sdks", dirs_exist_ok=True)
-shutil.copytree("unreal/Engine/Plugins/Compression/OodleNetwork/Sdks", "Engine/Plugins/Compression/OodleNetwork/Sdks", dirs_exist_ok=True)
 
-print("Parsing", flush=True)
+print("Parsing gitdeps", flush=True)
 manifest = ET.parse("Commit.gitdeps.xml").getroot()
 
 print("Parsing files", flush=True)
@@ -50,5 +47,11 @@ for pack in packs:
             os.makedirs(os.path.dirname(FileName), exist_ok=True)
             with open(FileName, "wb") as f:
                 f.write(packData[Offset:Offset + Size])
+
+print("Moving includes", flush=True)
+os.replace("unreal/Engine/Build/Commit.gitdeps.xml", "Commit.gitdeps.xml")
+shutil.copytree("unreal/Engine/Source/Runtime/OodleDataCompression/Sdks", "Engine/Source/Runtime/OodleDataCompression/Sdks", dirs_exist_ok=True)
+shutil.copytree("unreal/Engine/Plugins/Developer/TextureFormatOodle/Sdks", "Engine/Plugins/Developer/TextureFormatOodle/Sdks", dirs_exist_ok=True)
+shutil.copytree("unreal/Engine/Plugins/Compression/OodleNetwork/Sdks", "Engine/Plugins/Compression/OodleNetwork/Sdks", dirs_exist_ok=True)
 
 print("Done", flush=True)
