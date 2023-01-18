@@ -38,6 +38,7 @@ jobs:
       run: python download_oodle.py
 
     - name: Commit Changes
+      id: commit
       continue-on-error: true
       run: |
           git config user.name github-actions[bot]
@@ -46,8 +47,8 @@ jobs:
           git commit -m "Automatic Update" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
 
     - name: Push Changes
+      if: ${{ steps.commit.conclusion == 'success' }}
       uses: ad-m/github-push-action@master
-      continue-on-error: true
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}

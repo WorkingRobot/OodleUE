@@ -1,4 +1,4 @@
-import requests, gzip, os, shutil
+import requests, gzip, os, shutil, glob, zipfile
 import xml.etree.ElementTree as ET
 
 print("Moving gitdeps", flush=True)
@@ -29,7 +29,7 @@ for pack in manifest.find("Packs"):
             packs.append(pack)
             break
 
-print("Grabbing files", flush=True)
+print("::group::Grabbing files", flush=True)
 idx = 0
 for pack in packs:
     idx += 1
@@ -49,10 +49,18 @@ for pack in packs:
             with open(file_name, "wb") as f:
                 f.write(pack_data[offset:offset + size])
             print("%s (%d/%d)" % (file_name, idx, len(packs)), flush=True)
+print("::endgroup::", flush=True)
 
 print("Moving includes", flush=True)
 shutil.copytree("unreal/Engine/Source/Runtime/OodleDataCompression/Sdks", "Engine/Source/Runtime/OodleDataCompression/Sdks", dirs_exist_ok=True)
 shutil.copytree("unreal/Engine/Plugins/Developer/TextureFormatOodle/Sdks", "Engine/Plugins/Developer/TextureFormatOodle/Sdks", dirs_exist_ok=True)
 shutil.copytree("unreal/Engine/Plugins/Compression/OodleNetwork/Sdks", "Engine/Plugins/Compression/OodleNetwork/Sdks", dirs_exist_ok=True)
+
+print("::group::Extracting zips", flush=True)
+for file in glob.glob("unreal/**/*.zip", recursive=True):
+    print(file, flush=True)
+    with zipfile.ZipFile(file, 'r') as zip_ref:
+        zip_ref.extractall(os.path.dirname(file))
+print("::endgroup::", flush=True)
 
 print("Done", flush=True)
