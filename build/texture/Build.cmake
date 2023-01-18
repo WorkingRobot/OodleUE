@@ -1,4 +1,4 @@
-s_project(oodle_texture ${PROJ_TYPE})
+s_project(oodle::texture::${PROJ_NAME} ${PROJ_TYPE})
 s_add_dir_recursive(${oodle_texture_SOURCE_DIR}/texture)
 s_end_sources()
 

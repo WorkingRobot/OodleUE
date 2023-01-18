@@ -1,4 +1,4 @@
-s_project(oodle_data ${PROJ_TYPE})
+s_project(oodle::data::${PROJ_NAME} ${PROJ_TYPE})
 s_add_dir_recursive(${oodle_data_SOURCE_DIR})
 s_end_sources()
 
