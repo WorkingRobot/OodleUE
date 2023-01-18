@@ -1,0 +1,24 @@
+name: Gitdeps
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  Gitdeps:      
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set repo name
+      run: echo "GITHUB_REPOSITORY=EpicGames/UnrealEngine" >> $GITHUB_ENV
+    - name: Checkout Commit.gitdeps.xml
+      uses: Bhacaz/checkout-files@v2
+      with:
+        branch: master
+        files: Engine/Build/Commit.gitdeps.xml
+
+    - name: Upload Commit.gitdeps.xml
+      uses: actions/upload-artifact@v3
+      with:
+        name: Gitdeps
+        path: Engine/Build/Commit.gitdeps.xml
