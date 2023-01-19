@@ -12,6 +12,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    outputs:
+      commit_exit_code: ${{ steps.commit.outputs.exit_code }}
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -74,7 +77,7 @@ jobs:
   build:
     name: Build
 
-    if: ${{ needs.sources.steps.commit.outputs.exit_code == 0 }}
+    if: ${{ needs.sources.outputs.commit_exit_code == 0 }}
     needs: sources
 
     strategy:
