@@ -33,7 +33,7 @@ for pack in manifest.find("Packs"):
             break
 
 print("::group::Grabbing files", flush=True)
-session = FuturesSession(max_workers=32)
+session = FuturesSession()
 futures = []
 for pack in packs:
     future = session.get("%s/%s/%s" % (manifest.attrib["BaseUrl"], pack.attrib["RemotePath"], pack.attrib["Hash"]))
