@@ -69,3 +69,18 @@ jobs:
       with:
         name: ${{matrix.configure-preset}}-${{matrix.build-preset}}
         path: ${{matrix.configure-preset}}-${{matrix.build-preset}}.zip
+
+  Release:
+    needs: Build
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download built artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: artifacts
+
+    - name: Display structure of artifacts
+      run: ls -R
+      working-directory: artifacts
