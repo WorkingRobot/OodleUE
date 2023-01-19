@@ -91,6 +91,6 @@ jobs:
       working-directory: artifacts
 
     - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: artifacts/*.zip
+      uses: softprops/action-gh-release@v1
+      with:
+        files: artifacts/*.zip
