@@ -37,6 +37,35 @@
                     "intelliSenseMode": "windows-msvc-x64"
                 }
             }
+        },
+        {
+            "name": "clang",
+            "displayName": "Clang",
+            "inherits": "clang-cl",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "hostOS": "Linux"
+                }
+            }
+        },
+        {
+            "name": "gcc",
+            "displayName": "GCC",
+            "inherits": "clang-cl",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "hostOS": "Linux",
+                    "intelliSenseMode": "linux-gcc-x64"
+                }
+            }
         }
     ],
     "buildPresets": [
@@ -61,6 +90,30 @@
         {
             "name": "msvc-release",
             "configurePreset": "msvc",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "clang-debug",
+            "configurePreset": "clang",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "clang-release",
+            "configurePreset": "clang",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "gcc-debug",
+            "configurePreset": "gcc",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "gcc-release",
+            "configurePreset": "gcc",
             "displayName": "Release",
             "configuration": "Release"
         }
