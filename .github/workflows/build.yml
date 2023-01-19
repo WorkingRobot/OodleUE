@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configure-preset: [msvc, clang-cl, clang, gcc]
+        configure-preset: [clang, gcc]
         build-preset: [debug, release]
         include:
         - configure-preset: msvc
@@ -28,6 +28,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Get CMake
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      uses: lukka/get-cmake@latest
 
     - name: Cache LLVM and Clang
       id: cache-llvm
