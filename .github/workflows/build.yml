@@ -77,7 +77,7 @@ jobs:
   build:
     name: Build
 
-    if: needs.sources.outputs.outcome == 'success'
+    if: needs.sources.outputs.outcome != 'success'
     needs: sources
 
     strategy:
