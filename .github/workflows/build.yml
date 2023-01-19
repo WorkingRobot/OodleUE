@@ -10,9 +10,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configure-preset: [clang, gcc]
+        configure-preset: [msvc, clang-cl, clang, gcc]
         build-preset: [debug, release]
         include:
+        - configure-preset: msvc
+          os: windows-2022
+        - configure-preset: clang-cl
+          os: windows-2022
+          llvm-version: 15.0.0
         - configure-preset: clang
           os: ubuntu-latest
         - configure-preset: gcc
@@ -27,7 +32,7 @@ jobs:
     - name: Get CMake
       uses: lukka/get-cmake@latest
 
-    - name: Cache LLVM and Clang
+    - name: Cache Clang-cl
       id: cache-llvm
       if: ${{ matrix.configure-preset == 'clang-cl' }}
       uses: actions/cache@v3
@@ -35,7 +40,7 @@ jobs:
         path: C:/Program Files/LLVM
         key: ${{ runner.os }}-llvm-${{matrix.llvm-version}}
 
-    - name: Install LLVM and Clang
+    - name: Install Clang-cl
       if: ${{ matrix.configure-preset == 'clang-cl' }}
       uses: KyleMayes/install-llvm-action@v1
       with:

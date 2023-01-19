@@ -4,7 +4,7 @@ dir_path = sys.argv[1]
 zip_path = sys.argv[2]
 
 with zipfile.ZipFile(zip_path, mode='w', compression=zipfile.ZIP_DEFLATED) as zip_file:
-    for subdir in ['ar', 'bin']:
+    for subdir in ['ar', 'lib', 'bin']:
         subdir_path = "%s/%s" % (dir_path, subdir)
         for root, dirs, files in os.walk(subdir_path):
             for file in files:
