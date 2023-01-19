@@ -1,12 +1,82 @@
 name: Build
 
 on:
-  workflow_run:
-    workflows: [Gitdeps]
-    types: [completed]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
-  Build:
+  sources:
+    name: Get source data
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 'pypy3.9'
+        cache: 'pip'
+
+    - name: Install Python Dependencies
+      run: pip install -r requirements.txt
+
+    - name: Get Unreal Engine Ref
+      uses: octokit/request-action@v2.x
+      id: get-unreal-ref
+      with:
+        route: GET /repos/EpicGames/UnrealEngine/branches/release
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+    - name: Cache Unreal Engine
+      id: cache-unreal
+      uses: actions/cache@v3
+      with:
+        path: unreal
+        key: unreal-${{ fromJson(steps.get-unreal-ref.outputs.data).commit.sha }}
+
+    - name: Checkout Unreal Engine
+      if: steps.cache-unreal.outputs.cache-hit != 'true'
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ fromJson(steps.get-unreal-ref.outputs.data).commit.sha }}
+        repository: EpicGames/UnrealEngine
+        token: ${{ secrets.PAT_TOKEN }}
+        path: unreal
+
+    - name: Download Oodle Dependencies
+      run: python download_oodle.py
+
+    - name: Commit Changes
+      id: commit
+      continue-on-error: true
+      run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .
+          git commit -m "Automatic Update" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+
+    - name: Push Changes
+      if: ${{ steps.commit.conclusion == 'success' }}
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+
+  build:
+    name: Build
+
+    if: ${{ needs.sources.steps.commit.outputs.exit_code == 0 }}
+    needs: sources
+
     strategy:
       fail-fast: false
       matrix:
@@ -70,8 +140,10 @@ jobs:
         name: ${{matrix.configure-preset}}-${{matrix.build-preset}}
         path: ${{matrix.configure-preset}}-${{matrix.build-preset}}.zip
 
-  Release:
-    needs: Build
+  release:
+    name: Create Release
+
+    needs: build
 
     runs-on: ubuntu-latest
 
