@@ -26,3 +26,8 @@ s_include_directories(PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include)
 
 s_set_arch(AVX512)
 s_compile_definitions(PRIVATE ${PROJ_DEF} OODLE_BUILDING_TEXTURE)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    # error: invalid conversion from 'int' to '_MM_PERM_ENUM'
+    s_compile_options(PRIVATE -fpermissive)
+endif()
