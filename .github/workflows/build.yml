@@ -55,21 +55,7 @@ jobs:
     - name: Zip Artifacts
       shell: pwsh
       run: |
-        # Delete all empty directories (prevents empty Debug/Release folders from showing up when they're not built)
-        Get-ChildItem "${{github.workspace}}/build/builds/${{matrix.configure-preset}}" -Recurse -Force -Directory |
-          Sort-Object -Property FullName -Descending |
-          Where-Object { $($_ | Get-ChildItem -Force | Select-Object -First 1).Count -eq 0 } |
-          Remove-Item
-
-        # Compress binaries
-        $compress = @{
-          LiteralPath =
-            "${{github.workspace}}/build/builds/${{matrix.configure-preset}}/ar/",
-            "${{github.workspace}}/build/builds/${{matrix.configure-preset}}/bin/"
-          Force = $true
-          DestinationPath = "${{matrix.configure-preset}}-${{matrix.build-preset}}.zip"
-        }
-        Compress-Archive @compress
+        python zip_artifacts.py '${{github.workspace}}/build/builds/${{matrix.configure-preset}}' '${{matrix.configure-preset}}-${{matrix.build-preset}}.zip'
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
