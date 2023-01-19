@@ -45,12 +45,6 @@ jobs:
         force-version: true
         cached: ${{ steps.cache-llvm.outputs.cache-hit }}
 
-    - name: Install Ninja
-      if: ${{ matrix.os == 'ubuntu-latest' }}
-      uses: ashutoshvarma/setup-ninja@master
-      with:
-        version: 1.11.0
-
     - name: Run Vcpkg
       uses: lukka/run-vcpkg@v10
       with:

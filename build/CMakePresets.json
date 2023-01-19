@@ -10,7 +10,7 @@
             "name": "clang-cl",
             "displayName": "Clang-cl",
             "binaryDir": "${sourceDir}/builds/${presetName}",
-            "generator": "Ninja Multi-Config",
+            "generator": "Ninja",
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang-cl",
