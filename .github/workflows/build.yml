@@ -13,11 +13,6 @@ jobs:
         configure-preset: [clang, gcc]
         build-preset: [debug, release]
         include:
-        - configure-preset: msvc
-          os: windows-2022
-        - configure-preset: clang-cl
-          os: windows-2022
-          llvm-version: 15.0.0
         - configure-preset: clang
           os: ubuntu-latest
         - configure-preset: gcc
