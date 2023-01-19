@@ -76,11 +76,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Grab Python File
+      uses: Bhacaz/checkout-files@v2
+      with:
+       files: create_release.py
+
     - name: Download built artifacts
       uses: actions/download-artifact@v3
       with:
         path: artifacts
 
-    - name: Display structure of artifacts
-      run: ls -R
+    - name: Create release zips
+      run: python ../create_release.py
       working-directory: artifacts
+
+    - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/*.zip
