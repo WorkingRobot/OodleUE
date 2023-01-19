@@ -77,7 +77,7 @@ jobs:
   build:
     name: Build
 
-    if: ${{ needs.sources.outputs.commit_exit_code == 0 }}
+    if: needs.sources.outputs.commit_exit_code == 0
     needs: sources
 
     strategy:
