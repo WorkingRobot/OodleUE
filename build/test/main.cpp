@@ -8,7 +8,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-static constexpr OodleLZ_Compressor Compressor = OodleLZ_Compressor_Hydra;
+static constexpr OodleLZ_Compressor Compressor = OodleLZ_Compressor_Leviathan;
 static constexpr OodleLZ_CompressionLevel CompressionLevel = OodleLZ_CompressionLevel_Optimal5;
 
 std::pair<std::unique_ptr<std::byte[]>, size_t> ReadFile(const std::filesystem::path& Path)
@@ -34,7 +34,7 @@ void CreateData(const std::filesystem::path& Path)
 {
     FILE* File = fopen(Path.string().c_str(), "wb");
 
-    for (int i = 0; i < 1 << 20; ++i)
+    for (int i = 0; i < 1 << 24; ++i)
     {
         fwrite(&i, sizeof(i), 1, File);
     }

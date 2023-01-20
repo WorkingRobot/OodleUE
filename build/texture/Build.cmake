@@ -26,8 +26,11 @@ s_include_directories(PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include)
 s_include_directories(INTERFACE ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/include)
 
 s_set_arch(AVX2)
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+set_source_files_properties(${oodle_data_SOURCE_DIR}/texture/rrdxt1vqhelp_avx512.cpp PROPERTIES COMPILE_FLAGS "-mavx512f -mavx512vl -mavx512dq -mavx512bw")
+set_source_files_properties(${oodle_data_SOURCE_DIR}/texture/rrdxtcblock_avx512.cpp PROPERTIES COMPILE_FLAGS "-mavx512f -mavx512vl -mavx512dq -mavx512bw")
+endif()
 s_compile_definitions(PRIVATE ${PROJ_DEF} OODLE_BUILDING_TEXTURE)
-
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     # error: invalid conversion from 'int' to '_MM_PERM_ENUM'
