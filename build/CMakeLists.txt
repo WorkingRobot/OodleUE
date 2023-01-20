@@ -27,19 +27,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 FetchContent_Declare(
   oodle_data
-  URL https://github.com/WorkingRobot/UECommitDep/raw/main/Engine/Source/Runtime/OodleDataCompression/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_data_${PROJECT_VERSION}.zip
+  URL ${CMAKE_SOURCE_DIR}/../Engine/Source/Runtime/OodleDataCompression/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_data_${PROJECT_VERSION}.zip
   DOWNLOAD_EXTRACT_TIMESTAMP FALSE
 )
 
 FetchContent_Declare(
   oodle_texture
-  URL https://github.com/WorkingRobot/UECommitDep/raw/main/Engine/Plugins/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_texture_${PROJECT_VERSION}.zip
+  URL ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_texture_${PROJECT_VERSION}.zip
   DOWNLOAD_EXTRACT_TIMESTAMP FALSE
 )
 
 FetchContent_Declare(
   oodle_network
-  URL https://github.com/WorkingRobot/UECommitDep/raw/main/Engine/Plugins/Compression/OodleNetwork/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_network_${PROJECT_VERSION}.zip
+  URL ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Compression/OodleNetwork/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_network_${PROJECT_VERSION}.zip
   DOWNLOAD_EXTRACT_TIMESTAMP FALSE
 )
 
@@ -53,3 +53,4 @@ file(COPY ${oodle_network_SOURCE_DIR}/network DESTINATION ${oodle_data_SOURCE_DI
 add_subdirectory(data)
 add_subdirectory(texture)
 add_subdirectory(network)
+add_subdirectory(test)

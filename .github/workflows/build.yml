@@ -77,7 +77,6 @@ jobs:
   build:
     name: Build
 
-    if: needs.sources.outputs.outcome == 'success'
     needs: sources
 
     strategy:
@@ -146,7 +145,8 @@ jobs:
   release:
     name: Create Release
 
-    needs: build
+    needs: [build, sources]
+    if: needs.sources.outputs.outcome == 'success' || github.event_name != 'schedule'
 
     runs-on: ubuntu-latest
 
