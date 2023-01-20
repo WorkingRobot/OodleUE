@@ -64,7 +64,7 @@ for future in as_completed(futures):
             f.write(pack_data[offset:offset + size])
 
         idx += 1
-        print("%s (%d/%d)" % (file_name, idx, len(packs)), flush=True)
+        print("%s (%d/%d)" % (file_name, idx, len(files)), flush=True)
 print("::endgroup::", flush=True)
 
 print("Moving includes", flush=True)

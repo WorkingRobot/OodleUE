@@ -28,9 +28,6 @@ s_include_directories(INTERFACE ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Developer/
 s_set_arch(AVX2)
 s_compile_definitions(PRIVATE ${PROJ_DEF} OODLE_BUILDING_TEXTURE)
 
-if (MSVC)
-    s_compile_options(PRIVATE /Ob3)
-endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     # error: invalid conversion from 'int' to '_MM_PERM_ENUM'

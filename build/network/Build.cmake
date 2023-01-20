@@ -33,6 +33,3 @@ s_include_directories(INTERFACE ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Compressio
 s_set_arch(AVX2)
 s_compile_definitions(PRIVATE ${PROJ_DEF} OODLE_BUILDING_NETWORK)
 
-if (MSVC)
-    s_compile_options(PRIVATE /Ob3)
-endif()
