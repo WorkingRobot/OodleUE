@@ -123,7 +123,13 @@ int main()
     }
 
     {
-        auto Lib = LoadLibraryA("C:/Users/Asriel/Downloads/oo2core_9_win64.dll");
+        if (std::filesystem::status("oo2core_9_win64.dll").type() != std::filesystem::file_type::regular)
+        {
+            printf("Place a oo2core_9_win64.dll in this folder\n");
+            return 0;
+        }
+
+        auto Lib = LoadLibraryA("oo2core_9_win64.dll");
 
         CreateData("test2.bin");
 
