@@ -35,7 +35,7 @@ jobs:
       uses: octokit/request-action@v2.x
       id: get-unreal-ref
       with:
-        route: GET /repos/EpicGames/UnrealEngine/branches/release
+        route: GET /repos/EpicGames/UnrealEngine/branches/ue5-main
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
