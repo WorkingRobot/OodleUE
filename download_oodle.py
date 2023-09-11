@@ -4,11 +4,8 @@ import xml.etree.ElementTree as ET
 from concurrent.futures import as_completed
 from requests_futures.sessions import FuturesSession
 
-print("Moving gitdeps", flush=True)
-shutil.copy("unreal/Engine/Build/Commit.gitdeps.xml", "Commit.gitdeps.xml")
-
-print("Parsing gitdeps", flush=True)
-manifest = ET.parse("Commit.gitdeps.xml").getroot()
+print("Parsing Commit.gitdeps.xml", flush=True)
+manifest = ET.parse("unreal/Engine/Build/Commit.gitdeps.xml").getroot()
 
 print("Parsing files", flush=True)
 files = []
