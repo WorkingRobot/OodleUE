@@ -89,7 +89,6 @@ jobs:
           os: windows-2022
         - configure-preset: clang-cl
           os: windows-2022
-          llvm-version: 15.0.0
         - configure-preset: clang
           os: ubuntu-latest
         - configure-preset: gcc
@@ -105,22 +104,6 @@ jobs:
 
     - name: Get CMake
       uses: lukka/get-cmake@latest
-
-    - name: Cache Clang-cl
-      id: cache-llvm
-      if: ${{ matrix.configure-preset == 'clang-cl' }}
-      uses: actions/cache@v3
-      with:
-        path: C:/Program Files/LLVM
-        key: ${{ runner.os }}-llvm-${{matrix.llvm-version}}
-
-    - name: Install Clang-cl
-      if: ${{ matrix.configure-preset == 'clang-cl' }}
-      uses: KyleMayes/install-llvm-action@v1
-      with:
-        version: ${{matrix.llvm-version}}
-        force-version: true
-        cached: ${{ steps.cache-llvm.outputs.cache-hit }}
 
     - name: Run Vcpkg
       uses: lukka/run-vcpkg@v10
