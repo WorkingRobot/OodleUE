@@ -6,7 +6,7 @@ Despite being one of the best compression libraries out there, Oodle is notoriou
 
 ---
 
-### Latest Supported Oodle Version: 2.9.10
+### Latest Supported Oodle Version: 2.9.11
 If this is out of date, please let me know so I can change the build system accordingly. You can see the latest changelog [here](http://www.radgametools.com/oodlehist.htm).
 
 ## Repository Layout
@@ -14,23 +14,23 @@ If this is out of date, please let me know so I can change the build system acco
 - [CMake Build Files](/build)
 - [Github Actions Binaries](https://github.com/WorkingRobot/OodleUE/releases)
 - Oodle Data
-    - [Source Code](/Engine/Source/Runtime/OodleDataCompression/Sdks/2.9.10/src)
-    - [Documentation](https://htmlpreview.github.io/?https://github.com/WorkingRobot/OodleUE/blob/main/Engine/Source/Runtime/OodleDataCompression/Sdks/2.9.10/help/oodle2.html)
-    - [Includes](/Engine/Source/Runtime/OodleDataCompression/Sdks/2.9.10/include)
-    - [Official Binaries](/Engine/Source/Runtime/OodleDataCompression/Sdks/2.9.10/lib)
-        - [Distributable Binaries](/Engine/Source/Programs/Shared/EpicGames.Oodle/Sdk/2.9.10)
-        - [VisionOS](/Engine/Platforms/VisionOS/Source/Runtime/OodleDataCompression/Sdks/2.9.10/lib)
+    - [Source Code](/Engine/Source/Runtime/OodleDataCompression/Sdks/2.9.11/src)
+    - [Documentation](https://htmlpreview.github.io/?https://github.com/WorkingRobot/OodleUE/blob/main/Engine/Source/Runtime/OodleDataCompression/Sdks/2.9.11/help/oodle2.html)
+    - [Includes](/Engine/Source/Runtime/OodleDataCompression/Sdks/2.9.11/include)
+    - [Official Binaries](/Engine/Source/Runtime/OodleDataCompression/Sdks/2.9.11/lib)
+        - [Distributable Binaries](/Engine/Source/Programs/Shared/EpicGames.Oodle/Sdk/2.9.10) (Only up to 2.9.10)
+        - [VisionOS](/Engine/Platforms/VisionOS/Source/Runtime/OodleDataCompression/Sdks/2.9.11/lib)
         - [Hololens](/Engine/Platforms/Hololens/Source/Runtime/OodleDataCompression/Sdks/2.9.8/lib) (Only up to 2.9.8)
 - Oodle Network
-    - [Source Code](/Engine/Plugins/Compression/OodleNetwork/Sdks/2.9.10/src)
-    - [Includes](/Engine/Plugins/Compression/OodleNetwork/Sdks/2.9.10/include)
-    - [Official Binaries](/Engine/Plugins/Compression/OodleNetwork/Sdks/2.9.10/lib)
-        - [VisionOS](/Engine/Platforms/VisionOS/Plugins/Compression/OodleNetwork/Sdks/2.9.10/lib)
+    - [Source Code](/Engine/Plugins/Compression/OodleNetwork/Sdks/2.9.11/src)
+    - [Includes](/Engine/Plugins/Compression/OodleNetwork/Sdks/2.9.11/include)
+    - [Official Binaries](/Engine/Plugins/Compression/OodleNetwork/Sdks/2.9.11/lib)
+        - [VisionOS](/Engine/Platforms/VisionOS/Plugins/Compression/OodleNetwork/Sdks/2.9.11/lib)
 - Oodle Texture
-    - [Source Code](/Engine/Plugins/Developer/TextureFormatOodle/Sdks/2.9.10/src)
-    - [Includes](/Engine/Plugins/Developer/TextureFormatOodle/Sdks/2.9.10/include)
-    - [Official Binaries](/Engine/Plugins/Developer/TextureFormatOodle/Sdks/2.9.10/lib)
-        - [Distributable Binaries](/Engine/Plugins/Developer/TextureFormatOodle/Sdks/2.9.10/redist)
+    - [Source Code](/Engine/Plugins/Developer/TextureFormatOodle/Sdks/2.9.11/src)
+    - [Includes](/Engine/Plugins/Developer/TextureFormatOodle/Sdks/2.9.11/include)
+    - [Official Binaries](/Engine/Plugins/Developer/TextureFormatOodle/Sdks/2.9.11/lib)
+        - [Distributable Binaries](/Engine/Plugins/Developer/TextureFormatOodle/Sdks/2.9.11/redist)
 
 ## EULA Notice
 
