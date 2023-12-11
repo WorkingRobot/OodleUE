@@ -100,7 +100,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        ref: ${{ github.ref }}
+        ref: ${{github.ref}}
+
+    - name: "[Ubuntu] Remove GCC 13 from runner image"
+      uses: mjp41/workaround8649@7929373c0fe5caf844d8115adccef39e3b5362e7
+      with:
+        os: ${{matrix.os}}
 
     - name: Get CMake
       uses: lukka/get-cmake@latest
