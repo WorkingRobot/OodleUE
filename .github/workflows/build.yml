@@ -103,7 +103,7 @@ jobs:
         ref: ${{github.ref}}
 
     - name: "[Ubuntu] Remove GCC 13 from runner image"
-      uses: mjp41/workaround8649@7929373c0fe5caf844d8115adccef39e3b5362e7
+      uses: WorkingRobot/workaround8649@ffbd89094d995fd7190f64ec58a55c18aab42129
       with:
         os: ${{matrix.os}}
 
