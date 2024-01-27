@@ -16,6 +16,10 @@
 #ifdef _MSC_VER
 	#include <intrin.h>
 
+	#ifdef OODLE_PLATFORMDEF_CLASS_PC
+	#include <includewindows.h> // for GetEnvironmentVariableA
+	#endif
+
 	#if _MSC_VER >= 1500 // VC++2008 or later
 	#define HAVE_CPUIDEX
 	#endif
@@ -74,14 +78,42 @@ OODLE_NS_START
 //	most likely it's fine
 U32 g_rrCPUx86_feature_flags = 0;
 
+#if defined(OODLE_PLATFORMDEF_CLASS_PC)
+
+#ifndef _MSC_VER
+
+// default on PC-like platforms is to actually check env var via getenv
+static bool has_env_var(const char * varname)
+{
+	char * value = getenv(varname);
+	return value != nullptr && value[0] != 0;
+}
+
+#else
+
+// default on MSVC PC-like platforms is to check via direct Win32 API to avoid CRT linkage issues
+static bool has_env_var(const char * varname)
+{
+	char buf[16]; // Actual size doesn't matter much, we only check if env vars exist, not their values
+	DWORD result = GetEnvironmentVariableA(varname, buf, sizeof(buf)/sizeof(*buf));
+	return result != 0; // just check if failed or not (result if not 0 is number of bytes required to hold result)
+}
+
+#endif
+
+#else
+
+// on non-PC-like (embedded/consoles), we just assume no usable environment vars
+static bool has_env_var(const char * varname)
+{
+	return false;
+}
+
+#endif
+
 static bool safe_mode_enabled()
 {
-	char * env_safe_mode = getenv("OODLE_SAFE_MODE");
-	// If the environment variable is set and non-empty, enable safe mode.
-	if ( env_safe_mode && env_safe_mode[0] )
-		return true;
-
-	return false;
+	return has_env_var("OODLE_SAFE_MODE");
 }
 
 void rrCPUx86_detect(U32 safe_mode_features)
