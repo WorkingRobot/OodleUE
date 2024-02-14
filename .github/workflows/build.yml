@@ -13,14 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      outcome: ${{ steps.commit.outcome }}
+      outcome: ${{steps.commit.outcome}}
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
       with:
         persist-credentials: false
-        fetch-depth: 0
 
     - name: Setup Python
       uses: actions/setup-python@v4
@@ -37,22 +36,22 @@ jobs:
       with:
         route: GET /repos/EpicGames/UnrealEngine/branches/ue5-main
       env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        GITHUB_TOKEN: ${{secrets.PAT_TOKEN}}
 
     - name: Cache Unreal Engine
       id: cache-unreal
       uses: actions/cache@v3
       with:
         path: unreal
-        key: unreal-${{ fromJson(steps.get-unreal-ref.outputs.data).commit.sha }}
+        key: unreal-${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
 
     - name: Checkout Unreal Engine
       if: steps.cache-unreal.outputs.cache-hit != 'true'
       uses: actions/checkout@v3
       with:
-        ref: ${{ fromJson(steps.get-unreal-ref.outputs.data).commit.sha }}
+        ref: ${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
         repository: EpicGames/UnrealEngine
-        token: ${{ secrets.PAT_TOKEN }}
+        token: ${{secrets.PAT_TOKEN}}
         path: unreal
 
     - name: Download Oodle Dependencies
@@ -65,14 +64,14 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add .
-          git commit -m "Automatic Update" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+          git commit -m "Automatic Update" --author="${{github.actor}} <${{github.actor}}@users.noreply.github.com>"
 
     - name: Push Changes
-      if: ${{ steps.commit.conclusion == 'success' }}
+      if: ${{steps.commit.conclusion == 'success'}}
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        branch: ${{github.ref}}
 
   build:
     name: Build
@@ -144,19 +143,23 @@ jobs:
     - name: Grab Python File
       uses: Bhacaz/checkout-files@v2
       with:
-       files: create_release.py
+        files: create_release.py
 
-    - name: Download built artifacts
+    - name: Download Built Artifacts
       uses: actions/download-artifact@v3
       with:
         path: artifacts
 
-    - name: Create release zips
+    - name: Create Release Zips
       run: python ../create_release.py
       working-directory: artifacts
+
+    - name: Get Current Date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
     - name: Create Release
       uses: ncipollo/release-action@v1
       with:
         artifacts: artifacts/*.zip
-        tag: ${{ github.run_id }}
+        tag: ${{steps.date.outputs.date}}-${{github.run_number}}

@@ -12,56 +12,58 @@ files = []
 for file in manifest.find("Files"):
     if "Oodle" in file.attrib["Name"] and "Sdk" in file.attrib["Name"]:
         files.append(file)
+print(f"Found {len(files)} files")
 
 print("Parsing blobs", flush=True)
 blobs = []
 for blob in manifest.find("Blobs"):
+    in_blobs = False
     for file in files:
         if file.attrib["Hash"] == blob.attrib["Hash"]:
-            blobs.append(blob)
-            break
+            if not in_blobs:
+                blobs.append(blob)
+                in_blobs = True
+                blob.files = [file]
+            else:
+                blob.files.append(file)
+print(f"Found {len(blobs)} blobs", flush=True)
 
 print("Parsing packs", flush=True)
 packs = []
 for pack in manifest.find("Packs"):
+    in_packs = False
     for blob in blobs:
         if blob.attrib["PackHash"] == pack.attrib["Hash"]:
-            packs.append(pack)
-            break
+            if not in_packs:
+                packs.append(pack)
+                in_packs = True
+                pack.blobs = [blob]
+            else:
+                pack.blobs.append(blob)
+print(f"Found {len(packs)} packs", flush=True)
 
 print("::group::Grabbing files", flush=True)
 session = FuturesSession(max_workers=64)
 futures = []
 for pack in packs:
-    future = session.get("%s/%s/%s" % (manifest.attrib["BaseUrl"], pack.attrib["RemotePath"], pack.attrib["Hash"]))
-    future.pack_hash = pack.attrib["Hash"]
+    future = session.get(f"{manifest.attrib["BaseUrl"]}/{pack.attrib["RemotePath"]}/{pack.attrib["Hash"]}")
+    future.pack = pack
     futures.append(future)
 
 idx = 0
 for future in as_completed(futures):
     pack_data = gzip.decompress(future.result().content)
-    for blob in blobs:
-        if blob.attrib["PackHash"] != future.pack_hash:
-            continue
-
-        file_name = None
-        for file in files:
-            if file.attrib["Hash"] != blob.attrib["Hash"]:
-                continue
-
-            file_name = file.attrib["Name"]
-            break
-        else:
-            continue
-
+    for blob in future.pack.blobs:
         size = int(blob.attrib["Size"])
         offset = int(blob.attrib["PackOffset"])
-        os.makedirs(os.path.dirname(file_name), exist_ok=True)
-        with open(file_name, "wb") as f:
-            f.write(pack_data[offset:offset + size])
 
-        idx += 1
-        print("%s (%d/%d)" % (file_name, idx, len(files)), flush=True)
+        for file in blob.files:
+            file_name = file.attrib["Name"]
+            os.makedirs(os.path.dirname(file_name), exist_ok=True)
+            with open(file_name, "wb") as f:
+                f.write(pack_data[offset:offset + size])
+            idx += 1
+            print(f"{file_name} ({idx}/{len(files)})", flush=True)
 print("::endgroup::", flush=True)
 
 print("Moving includes", flush=True)
