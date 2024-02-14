@@ -46,7 +46,7 @@ print("::group::Grabbing files", flush=True)
 session = FuturesSession(max_workers=64)
 futures = []
 for pack in packs:
-    future = session.get(f"{manifest.attrib["BaseUrl"]}/{pack.attrib["RemotePath"]}/{pack.attrib["Hash"]}")
+    future = session.get(f"{manifest.attrib['BaseUrl']}/{pack.attrib['RemotePath']}/{pack.attrib['Hash']}")
     future.pack = pack
     futures.append(future)
 
