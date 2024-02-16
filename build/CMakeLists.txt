@@ -27,11 +27,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 function(FetchContent_DeclareWithPatch NAME PATH)
   set(PATCH_INFO "")
+  message(STATUS "Checking ${CMAKE_SOURCE_DIR}/${CMAKE_C_COMPILER}-${NAME}.patch")
   if(EXISTS "${CMAKE_SOURCE_DIR}/${CMAKE_C_COMPILER}-${NAME}.patch")
     set(PATCH_INFO
       LOG_PATCH ON
       PATCH_COMMAND patch --binary -p1 <"${CMAKE_SOURCE_DIR}/${CMAKE_C_COMPILER}-${NAME}.patch")
     message(STATUS "Applying patch ${CMAKE_C_COMPILER}-${NAME}.patch")
+    message(STATUS "> ${PATCH_INFO}")
   endif()
   FetchContent_Declare(
     oodle_${NAME}
