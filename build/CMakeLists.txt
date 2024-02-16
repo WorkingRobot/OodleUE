@@ -26,21 +26,23 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 ## Define content ##
 
 function(FetchContent_DeclareWithPatch NAME PATH)
-  set(PATCH_INFO "")
-  message(STATUS "Checking ${CMAKE_SOURCE_DIR}/${PRESET_NAME}-${NAME}.patch")
   if(EXISTS "${CMAKE_SOURCE_DIR}/${PRESET_NAME}-${NAME}.patch")
-    set(PATCH_INFO
+    FetchContent_Declare(
+      oodle_${NAME}
+      URL ${PATH}
+      PATCH_COMMAND "patch --binary -p1 <\"${CMAKE_SOURCE_DIR}/${PRESET_NAME}-${NAME}.patch\""
       LOG_PATCH ON
-      PATCH_COMMAND patch --binary -p1 <"${CMAKE_SOURCE_DIR}/${PRESET_NAME}-${NAME}.patch")
+      DOWNLOAD_EXTRACT_TIMESTAMP FALSE
+    )
     message(STATUS "Applying patch ${PRESET_NAME}-${NAME}.patch")
-    message(STATUS "> ${PATCH_INFO}")
+  else()
+    FetchContent_Declare(
+      oodle_${NAME}
+      URL ${PATH}
+      DOWNLOAD_EXTRACT_TIMESTAMP FALSE
+    )
   endif()
-  FetchContent_Declare(
-    oodle_${NAME}
-    URL ${PATH}
-    ${PATCH_INFO}
-    DOWNLOAD_EXTRACT_TIMESTAMP FALSE
-  )
+
 endfunction()
 
 FetchContent_DeclareWithPatch(
