@@ -25,22 +25,32 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 ## Define content ##
 
-FetchContent_Declare(
-  oodle_data
-  URL ${CMAKE_SOURCE_DIR}/../Engine/Source/Runtime/OodleDataCompression/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_data_${PROJECT_VERSION}.zip
-  DOWNLOAD_EXTRACT_TIMESTAMP FALSE
+function(FetchContent_DeclareWithPatch NAME PATH)
+  set(PATCH_INFO "")
+  if(EXISTS "${CMAKE_SOURCE_DIR}/${CMAKE_C_COMPILER}-${NAME}.patch")
+    set(PATCH_INFO PATCH_COMMAND patch --binary -p1 <"${CMAKE_SOURCE_DIR}/${CMAKE_C_COMPILER}-${NAME}.patch")
+  endif()
+  FetchContent_Declare(
+    oodle_${NAME}
+    URL ${PATH}
+    ${PATCH_INFO}
+    DOWNLOAD_EXTRACT_TIMESTAMP FALSE
+  )
+endfunction()
+
+FetchContent_DeclareWithPatch(
+  data
+  ${CMAKE_SOURCE_DIR}/../Engine/Source/Runtime/OodleDataCompression/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_data_${PROJECT_VERSION}.zip
 )
 
-FetchContent_Declare(
-  oodle_texture
-  URL ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_texture_${PROJECT_VERSION}.zip
-  DOWNLOAD_EXTRACT_TIMESTAMP FALSE
+FetchContent_DeclareWithPatch(
+  texture
+  ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_texture_${PROJECT_VERSION}.zip
 )
 
-FetchContent_Declare(
-  oodle_network
-  URL ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Compression/OodleNetwork/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_network_${PROJECT_VERSION}.zip
-  DOWNLOAD_EXTRACT_TIMESTAMP FALSE
+FetchContent_DeclareWithPatch(
+  network
+  ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Compression/OodleNetwork/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_network_${PROJECT_VERSION}.zip
 )
 
 FetchContent_MakeAvailable(oodle_data oodle_texture oodle_network)

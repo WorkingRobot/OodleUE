@@ -1,0 +1,15 @@
+diff --git a/oodle2/texture/vec128_x86.inl b/oodle2/texture/vec128_x86.inl
+index 25acac7..ab9781c 100644
+--- a/oodle2/texture/vec128_x86.inl
++++ b/oodle2/texture/vec128_x86.inl
+@@ -655,8 +655,8 @@ struct VecF32x4
+ 
+ 	// copy/insert/extract single lanes
+ #ifdef DO_BUILD_SSE4
+-	template <int lane> 
+-	float lane() const								{ return _mm_cvtss_f32((lane == 0) ? v : _mm_insert_ps(v, v, (lane << 6) | 0xe)); }
++	template <int lane_idx>
++	float lane() const								{ return _mm_cvtss_f32((lane_idx == 0) ? v : _mm_insert_ps(v, v, (lane_idx << 6) | 0xe)); }
+ 
+ 	template <int lane>
+ 	VecF32x4 copy_lane(VecF32x4 from) const			{ return _mm_blend_ps(v, from, 1<<lane); }
