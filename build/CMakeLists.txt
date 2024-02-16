@@ -30,7 +30,7 @@ function(FetchContent_DeclareWithPatch NAME PATH)
     FetchContent_Declare(
       oodle_${NAME}
       URL ${PATH}
-      PATCH_COMMAND "patch --binary -p1 <\"${CMAKE_SOURCE_DIR}/${PRESET_NAME}-${NAME}.patch\""
+      PATCH_COMMAND patch --verbose --binary -p1 < ${CMAKE_SOURCE_DIR}/${PRESET_NAME}-${NAME}.patch
       LOG_PATCH ON
       DOWNLOAD_EXTRACT_TIMESTAMP FALSE
     )
