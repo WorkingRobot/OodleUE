@@ -1,7 +1,7 @@
-diff --git a/oodle2/texture/vec128_x86.inl b/oodle2/texture/vec128_x86.inl
+diff --git a/texture/vec128_x86.inl b/texture/vec128_x86.inl
 index 25acac7..ab9781c 100644
---- a/oodle2/texture/vec128_x86.inl
-+++ b/oodle2/texture/vec128_x86.inl
+--- a/texture/vec128_x86.inl
++++ b/texture/vec128_x86.inl
 @@ -655,8 +655,8 @@ struct VecF32x4
  
  	// copy/insert/extract single lanes
