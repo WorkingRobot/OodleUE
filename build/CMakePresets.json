@@ -14,7 +14,8 @@
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang-cl",
-                "CMAKE_CXX_COMPILER": "clang-cl"
+                "CMAKE_CXX_COMPILER": "clang-cl",
+                "PRESET_NAME": "clang-cl"
             },
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -29,7 +30,8 @@
             "inherits": "clang-cl",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl",
-                "CMAKE_CXX_COMPILER": "cl"
+                "CMAKE_CXX_COMPILER": "cl",
+                "PRESET_NAME": "msvc"
             },
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -44,7 +46,8 @@
             "inherits": "clang-cl",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++"
+                "CMAKE_CXX_COMPILER": "clang++",
+                "PRESET_NAME": "clang"
             },
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -58,7 +61,8 @@
             "inherits": "clang-cl",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++"
+                "CMAKE_CXX_COMPILER": "g++",
+                "PRESET_NAME": "gcc"
             },
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
