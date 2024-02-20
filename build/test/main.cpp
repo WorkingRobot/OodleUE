@@ -80,20 +80,6 @@ char logfilename[] = "c:\\test\\OZIP.log";
 #define o_fileno fileno
 #endif
 
-#ifndef max
-#define max(a,b)            (((a) > (b)) ? (a) : (b))
-#endif
-
-#ifndef min
-#define min(a,b)            (((a) < (b)) ? (a) : (b))
-#endif
-
-#if defined(_MSC_VER) && _MSC_VER >= 1600 // in 2010 aka 10.0 and later 
-#define RR_UNUSED_VARIABLE(x) (void) (x)
-#else
-#define RR_UNUSED_VARIABLE(x) (void)(sizeof(x))
-#endif
-
 #define NO_OODLEX
 
 #ifdef NO_OODLEX
@@ -177,6 +163,20 @@ static void OodleX_Shutdown(const char* threadProfileLogName OODEFAULT(NULL),
 {
 
 }
+#endif
+
+#ifndef max
+#define max(a,b)            (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b)            (((a) < (b)) ? (a) : (b))
+#endif
+
+#if defined(_MSC_VER) && _MSC_VER >= 1600 // in 2010 aka 10.0 and later 
+#define RR_UNUSED_VARIABLE(x) (void) (x)
+#else
+#define RR_UNUSED_VARIABLE(x) (void)(sizeof(x))
 #endif
 
 #ifndef MAX_PATH
