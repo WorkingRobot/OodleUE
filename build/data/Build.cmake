@@ -8,4 +8,5 @@ s_include_directories(PRIVATE ${oodle_data_SOURCE_DIR}/core/public)
 s_include_directories(INTERFACE ${CMAKE_SOURCE_DIR}/../Engine/Source/Runtime/OodleDataCompression/Sdks/${PROJECT_VERSION}/include)
 
 s_set_arch(AVX2)
+s_set_cxx_standard(20)
 s_compile_definitions(PRIVATE ${PROJ_DEF} OODLE_BUILDING_DATA)
