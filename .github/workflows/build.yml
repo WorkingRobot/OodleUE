@@ -17,12 +17,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         persist-credentials: false
 
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: 'pypy3.9'
         cache: 'pip'
@@ -40,14 +40,14 @@ jobs:
 
     - name: Cache Unreal Engine
       id: cache-unreal
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: unreal
         key: unreal-${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
 
     - name: Checkout Unreal Engine
       if: steps.cache-unreal.outputs.cache-hit != 'true'
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: ${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
         repository: EpicGames/UnrealEngine
@@ -97,7 +97,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: ${{github.ref}}
 
@@ -110,9 +110,9 @@ jobs:
       uses: lukka/get-cmake@latest
 
     - name: Run Vcpkg
-      uses: lukka/run-vcpkg@v10
+      uses: lukka/run-vcpkg@v11
       with:
-        vcpkgGitCommitId: '1370b2c88f1e683c5c6a2465133eaa9a9b3ee679'
+        vcpkgGitCommitId: '9558037875497b9db8cf38fcd7db68ec661bffe7'
         vcpkgJsonGlob: 'build/vcpkg.json'
 
     - name: Run CMake
@@ -126,7 +126,7 @@ jobs:
       run: python zip_artifacts.py '${{github.workspace}}/build/builds/${{matrix.configure-preset}}' '${{matrix.configure-preset}}-${{matrix.build-preset}}.zip'
 
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{matrix.configure-preset}}-${{matrix.build-preset}}
         path: ${{matrix.configure-preset}}-${{matrix.build-preset}}.zip
@@ -141,12 +141,12 @@ jobs:
 
     steps:
     - name: Grab Python File
-      uses: Bhacaz/checkout-files@v2
+      uses: actions/checkout@v4
       with:
-        files: create_release.py
+        sparse-checkout: create_release.py
 
     - name: Download Built Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: artifacts
 
