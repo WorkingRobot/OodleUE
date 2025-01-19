@@ -85,9 +85,9 @@ jobs:
         build-preset: [debug, release]
         include:
         - configure-preset: msvc
-          os: windows-2022
+          os: windows-latest
         - configure-preset: clang-cl
-          os: windows-2022
+          os: windows-latest
         - configure-preset: clang
           os: ubuntu-latest
         - configure-preset: gcc
@@ -100,11 +100,6 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: ${{github.ref}}
-
-    - name: "[Ubuntu] Remove GCC 13 from runner image"
-      uses: mjp41/workaround8649@c8550b715ccdc17f89c8d5c28d7a48eeff9c94a8
-      with:
-        os: ${{matrix.os}}
 
     - name: Get CMake
       uses: lukka/get-cmake@latest
