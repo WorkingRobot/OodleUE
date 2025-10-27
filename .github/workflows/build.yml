@@ -125,6 +125,11 @@ jobs:
         if: matrix.configure-preset == 'msvc'
         uses: ilammy/msvc-dev-cmd@v1
 
+      - name: Unix2Dos Patches
+        shell: bash
+        run: |
+          find . -name "build/*.patch" -exec unix2dos {} \;
+
       - name: Get CMake
         uses: lukka/get-cmake@latest
 
