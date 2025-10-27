@@ -121,6 +121,9 @@ jobs:
         with:
           ref: ${{github.ref}}
 
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Get CMake
         uses: lukka/get-cmake@latest
 
