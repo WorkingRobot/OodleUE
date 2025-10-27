@@ -7,76 +7,76 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-  # sources:
-  #   name: Get source data
+  sources:
+    name: Get source data
 
-  #   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  #   outputs:
-  #     outcome: ${{steps.commit.outcome}}
+    outputs:
+      outcome: ${{steps.commit.outcome}}
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         persist-credentials: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-  #     - name: Setup Python
-  #       uses: actions/setup-python@v5
-  #       with:
-  #         python-version: "pypy3.9"
-  #         cache: "pip"
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "pypy3.9"
+          cache: "pip"
 
-  #     - name: Install Python Dependencies
-  #       run: pip install -r requirements.txt
+      - name: Install Python Dependencies
+        run: pip install -r requirements.txt
 
-  #     - name: Get Unreal Engine Ref
-  #       uses: octokit/request-action@v2.x
-  #       id: get-unreal-ref
-  #       with:
-  #         route: GET /repos/EpicGames/UnrealEngine/branches/ue5-main
-  #       env:
-  #         GITHUB_TOKEN: ${{secrets.PAT_TOKEN}}
+      - name: Get Unreal Engine Ref
+        uses: octokit/request-action@v2.x
+        id: get-unreal-ref
+        with:
+          route: GET /repos/EpicGames/UnrealEngine/branches/ue5-main
+        env:
+          GITHUB_TOKEN: ${{secrets.PAT_TOKEN}}
 
-  #     - name: Cache Unreal Engine
-  #       id: cache-unreal
-  #       uses: actions/cache@v4
-  #       with:
-  #         path: unreal
-  #         key: unreal-${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
+      - name: Cache Unreal Engine
+        id: cache-unreal
+        uses: actions/cache@v4
+        with:
+          path: unreal
+          key: unreal-${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
 
-  #     - name: Checkout Unreal Engine
-  #       if: steps.cache-unreal.outputs.cache-hit != 'true'
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
-  #         repository: EpicGames/UnrealEngine
-  #         token: ${{secrets.PAT_TOKEN}}
-  #         path: unreal
+      - name: Checkout Unreal Engine
+        if: steps.cache-unreal.outputs.cache-hit != 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
+          repository: EpicGames/UnrealEngine
+          token: ${{secrets.PAT_TOKEN}}
+          path: unreal
 
-  #     - name: Download Oodle Dependencies
-  #       run: python download_oodle.py
+      - name: Download Oodle Dependencies
+        run: python download_oodle.py
 
-  #     - name: Commit Changes
-  #       id: commit
-  #       continue-on-error: true
-  #       run: |
-  #         git config user.name github-actions[bot]
-  #         git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-  #         git add .
-  #         git commit -m "Automatic Update" --author="${{github.actor}} <${{github.actor}}@users.noreply.github.com>"
+      - name: Commit Changes
+        id: commit
+        continue-on-error: true
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .
+          git commit -m "Automatic Update" --author="${{github.actor}} <${{github.actor}}@users.noreply.github.com>"
 
-  #     - name: Push Changes
-  #       if: ${{steps.commit.conclusion == 'success'}}
-  #       uses: ad-m/github-push-action@master
-  #       with:
-  #         github_token: ${{secrets.GITHUB_TOKEN}}
-  #         branch: ${{github.ref}}
+      - name: Push Changes
+        if: ${{steps.commit.conclusion == 'success'}}
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          branch: ${{github.ref}}
 
   build:
     name: Build
 
-    # needs: sources
+    needs: sources
 
     strategy:
       fail-fast: false
@@ -137,37 +137,37 @@ jobs:
           name: ${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}
           path: ${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}.zip
 
-  # release:
-  #   name: Create Release
+  release:
+    name: Create Release
 
-  #   needs: [build, sources]
-  #   # if: needs.sources.outputs.outcome == 'success' || github.event_name != 'schedule'
-  #   # Disable release creation for now
-  #   if: ${{ !always() }}
+    needs: [build, sources]
+    # if: needs.sources.outputs.outcome == 'success' || github.event_name != 'schedule'
+    # Disable release creation for now
+    if: ${{ !always() }}
 
-  #   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Grab Python File
-  #       uses: actions/checkout@v4
-  #       with:
-  #         sparse-checkout: create_release.py
+    steps:
+      - name: Grab Python File
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: create_release.py
 
-  #     - name: Download Built Artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         path: artifacts
+      - name: Download Built Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
 
-  #     - name: Create Release Zips
-  #       run: python ../create_release.py
-  #       working-directory: artifacts
+      - name: Create Release Zips
+        run: python ../create_release.py
+        working-directory: artifacts
 
-  #     - name: Get Current Date
-  #       id: date
-  #       run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Get Current Date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-  #     - name: Create Release
-  #       uses: ncipollo/release-action@v1
-  #       with:
-  #         artifacts: artifacts/*.zip
-  #         tag: ${{steps.date.outputs.date}}-${{github.run_number}}
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: artifacts/*.zip
+          tag: ${{steps.date.outputs.date}}-${{github.run_number}}
