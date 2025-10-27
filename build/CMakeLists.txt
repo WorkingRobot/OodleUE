@@ -26,14 +26,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 ## Define content ##
 
 function(FetchContent_DeclareWithPatch NAME PATH)
-  if(EXISTS "${CMAKE_SOURCE_DIR}/${PRESET_NAME}-${NAME}.patch")
+  if(EXISTS "${CMAKE_SOURCE_DIR}/${NAME}.patch")
     FetchContent_Declare(
       oodle_${NAME}
       URL ${PATH}
-      PATCH_COMMAND patch --binary -p1 -i ${CMAKE_SOURCE_DIR}/${PRESET_NAME}-${NAME}.patch
+      PATCH_COMMAND patch --binary -p1 -i ${CMAKE_SOURCE_DIR}/${NAME}.patch
       DOWNLOAD_EXTRACT_TIMESTAMP FALSE
     )
-    message(STATUS "Applying ${PRESET_NAME}-${NAME}.patch")
+    message(STATUS "Applying ${NAME}.patch")
   else()
     FetchContent_Declare(
       oodle_${NAME}
