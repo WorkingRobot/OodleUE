@@ -1,8 +1,8 @@
 diff --git a/texture/vec128_x86.inl b/texture/vec128_x86.inl
-index 25acac7..ab9781c 100644
+index cd2c6ed..016759f 100644
 --- a/texture/vec128_x86.inl
 +++ b/texture/vec128_x86.inl
-@@ -655,8 +655,8 @@ struct VecF32x4
+@@ -718,8 +718,8 @@ struct VecF32x4
  
  	// copy/insert/extract single lanes
  #ifdef DO_BUILD_SSE4

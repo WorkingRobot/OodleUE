@@ -34,7 +34,7 @@ function(FetchContent_DeclareWithPatch NAME PATH)
     FetchContent_Declare(
       oodle_${NAME}
       URL ${PATH}
-      PATCH_COMMAND patch --binary -p1 -i ${CMAKE_SOURCE_DIR}/${NAME}.patch
+      PATCH_COMMAND git apply --no-index --binary ${CMAKE_SOURCE_DIR}/${NAME}.patch
       DOWNLOAD_EXTRACT_TIMESTAMP FALSE
     )
     message(STATUS "Applying ${NAME}.patch")
