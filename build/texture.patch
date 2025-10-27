@@ -1,5 +1,5 @@
 diff --git a/texture/vec128_x86.inl b/texture/vec128_x86.inl
-index a978f9f..78ea7e1 100755
+index a978f9f..f1116f2 100644
 --- a/texture/vec128_x86.inl
 +++ b/texture/vec128_x86.inl
 @@ -718,8 +718,8 @@ struct VecF32x4
@@ -8,7 +8,7 @@ index a978f9f..78ea7e1 100755
  #ifdef DO_BUILD_SSE4
 -	template <int lane> 
 -	float lane() const								{ return _mm_cvtss_f32((lane == 0) ? v : _mm_insert_ps(v, v, (lane << 6) | 0xe)); }
-+	template <int lane_idx>
++	template <int lane_idx> 
 +	float lane() const								{ return _mm_cvtss_f32((lane_idx == 0) ? v : _mm_insert_ps(v, v, (lane_idx << 6) | 0xe)); }
  
  	template <int lane>
