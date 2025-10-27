@@ -128,7 +128,7 @@ jobs:
       - name: Unix2Dos Patches
         shell: bash
         run: |
-          find . -name "build/*.patch" -exec unix2dos {} \;
+          find build -name "*.patch" -exec unix2dos {} \;
 
       - name: Get CMake
         uses: lukka/get-cmake@latest
