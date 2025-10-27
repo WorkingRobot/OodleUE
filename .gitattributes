@@ -1,13 +1,1 @@
-* text=auto
-*.c        text eol=crlf
-*.cpp      text eol=crlf
-*.cc       text eol=crlf
-*.h        text eol=crlf
-*.hpp      text eol=crlf
-*.inl      text eol=crlf
-*.cmake    text eol=crlf
-*.txt      text eol=crlf
-*.md       text eol=crlf
 *.patch    text eol=crlf
-*.py       text eol=crlf
-.gitattributes text eol=crlf
