@@ -121,12 +121,6 @@ jobs:
       - name: Get CMake
         uses: lukka/get-cmake@latest
 
-      - name: Run Vcpkg
-        uses: lukka/run-vcpkg@v11
-        with:
-          vcpkgGitCommitId: "9558037875497b9db8cf38fcd7db68ec661bffe7"
-          vcpkgJsonGlob: "build/vcpkg.json"
-
       - name: Run CMake
         uses: lukka/run-cmake@v10
         with:

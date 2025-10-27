@@ -12,7 +12,11 @@ include(${smake_SOURCE_DIR}/smake.cmake)
 
 ## Project Definition ##
 
-s_get_version_info(DEFAULT_BRANCH "main")
+set(PROJECT_NAME "oodle")
+set(PROJECT_VERSION "2.9.14")
+set(PROJECT_DESCRIPTION "Oodle is a family of solutions for efficient data compression.")
+
+s_get_version_info(DEFAULT_BRANCH "main" NO_VCPKG)
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES C CXX)
 
 message(STATUS "Compiling ${PROJECT_NAME} ${PROJECT_VERSION} for ${CMAKE_SYSTEM_NAME}")
