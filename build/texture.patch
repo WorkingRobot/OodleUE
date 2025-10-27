@@ -1,5 +1,3 @@
-diff --git a/texture/vec128_x86.inl b/texture/vec128_x86.inl
-index a978f9f..f1116f2 100644
 --- a/texture/vec128_x86.inl
 +++ b/texture/vec128_x86.inl
 @@ -718,8 +718,8 @@ struct VecF32x4
