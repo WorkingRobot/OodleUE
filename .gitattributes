@@ -1,0 +1,15 @@
+# Normalize text files by default (let Git decide for unknown types)
+* text=auto
+
+*.c        text eol=lf
+*.cpp      text eol=lf
+*.cc       text eol=lf
+*.h        text eol=lf
+*.hpp      text eol=lf
+*.inl      text eol=lf
+*.cmake    text eol=lf
+*.txt      text eol=lf
+*.md       text eol=lf
+*.patch    text eol=lf
+*.py       text eol=lf
+.gitattributes text eol=lf
