@@ -125,15 +125,13 @@ jobs:
         if: matrix.configure-preset == 'msvc'
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Unset VCPKG_ROOT environment variable
-        if: matrix.configure-preset == 'msvc'
-        run: echo "VCPKG_ROOT=" >> $GITHUB_ENV
-
       - name: Get CMake
         uses: lukka/get-cmake@latest
 
       - name: Run CMake
         uses: lukka/run-cmake@v10
+        env:
+          VCPKG_ROOT: ""
         with:
           cmakeListsTxtPath: "build/CMakeLists.txt"
           configurePreset: "${{matrix.configure-preset}}"
