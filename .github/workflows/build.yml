@@ -122,7 +122,12 @@ jobs:
           ref: ${{github.ref}}
 
       - name: Setup MSVC
+        if: matrix.configure-preset == 'msvc'
         uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Unset VCPKG_ROOT environment variable
+        if: matrix.configure-preset == 'msvc'
+        run: echo "VCPKG_ROOT=" >> $GITHUB_ENV
 
       - name: Get CMake
         uses: lukka/get-cmake@latest
