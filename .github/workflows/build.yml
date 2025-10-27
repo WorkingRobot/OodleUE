@@ -113,9 +113,6 @@ jobs:
     runs-on: ${{matrix.os}}
 
     steps:
-      - name: Leave line endings alone
-        run: git config --global core.autocrlf input
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -124,11 +121,6 @@ jobs:
       - name: Setup MSVC
         if: matrix.configure-preset == 'msvc'
         uses: ilammy/msvc-dev-cmd@v1
-
-      - name: Unix2Dos Patches
-        shell: bash
-        run: |
-          find build -name "*.patch" -exec unix2dos {} \;
 
       - name: Get CMake
         uses: lukka/get-cmake@latest
