@@ -81,17 +81,34 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        arch: [x64, arm64]
         configure-preset: [msvc, clang-cl, clang, gcc]
         build-preset: [debug, release]
         include:
           - configure-preset: msvc
+            arch: x64
+            os: windows-latest
+          - configure-preset: msvc
+            arch: arm64
+            os: windows-11-arm
+          - configure-preset: clang-cl
+            arch: x64
             os: windows-latest
           - configure-preset: clang-cl
-            os: windows-latest
+            arch: arm64
+            os: windows-11-arm
           - configure-preset: clang
+            arch: x64
+            os: ubuntu-latest
+          - configure-preset: clang
+            arch: arm64
+            os: ubuntu-24.04-arm
+          - configure-preset: gcc
+            arch: x64
             os: ubuntu-latest
           - configure-preset: gcc
-            os: ubuntu-latest
+            arch: arm64
+            os: ubuntu-24.04-arm
 
     runs-on: ${{matrix.os}}
 
@@ -118,13 +135,13 @@ jobs:
           buildPreset: "${{matrix.configure-preset}}-${{matrix.build-preset}}"
 
       - name: Zip Artifacts
-        run: python zip_artifacts.py '${{github.workspace}}/build/builds/${{matrix.configure-preset}}' '${{matrix.configure-preset}}-${{matrix.build-preset}}.zip'
+        run: python zip_artifacts.py '${{github.workspace}}/build/builds/${{matrix.configure-preset}}' '${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}.zip'
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{matrix.configure-preset}}-${{matrix.build-preset}}
-          path: ${{matrix.configure-preset}}-${{matrix.build-preset}}.zip
+          name: ${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}
+          path: ${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}.zip
 
   release:
     name: Create Release
