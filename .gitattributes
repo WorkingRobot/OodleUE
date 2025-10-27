@@ -1,6 +1,4 @@
-# Normalize text files by default (let Git decide for unknown types)
 * text=auto
-
 *.c        text eol=lf
 *.cpp      text eol=lf
 *.cc       text eol=lf
