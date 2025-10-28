@@ -1,0 +1,11 @@
+--- a/core/rrbighash.cpp
++++ b/core/rrbighash.cpp
+@@ -12,7 +12,7 @@
+ 
+ OODLE_NS_START
+ 
+-#ifdef __RADNT__
++#if defined(__RADNT__) && defined(__RADX86__)
+ #ifndef __RADSSE2__
+ #error SSE2 !!
+ #endif
