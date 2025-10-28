@@ -18,7 +18,7 @@ else()
     # Fix clang-cl missing intrin.h inclusion
     if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         s_compile_options(PRIVATE /FIintrin.h)
-    else()
+    endif()
 endif()
 s_set_cxx_standard(20)
 s_compile_definitions(PRIVATE ${PROJ_DEF} OODLE_BUILDING_DATA)
