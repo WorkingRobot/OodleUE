@@ -16,7 +16,7 @@ else()
     endif()
 
     # Fix clang-cl missing intrin.h inclusion
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         s_compile_options(PRIVATE /FIintrin.h)
     endif()
 endif()
