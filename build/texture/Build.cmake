@@ -27,6 +27,11 @@ s_include_directories(INTERFACE ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Developer/
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|i386|i686|x86)$")
     s_set_arch(AVX2)
+    
+    if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        set_source_files_properties(${oodle_data_SOURCE_DIR}/texture/rrdxt1vqhelp_avx512.cpp PROPERTIES COMPILE_FLAGS "-mavx512f -mavx512vl -mavx512dq -mavx512bw")
+        set_source_files_properties(${oodle_data_SOURCE_DIR}/texture/rrdxtcblock_avx512.cpp PROPERTIES COMPILE_FLAGS "-mavx512f -mavx512vl -mavx512dq -mavx512bw")
+    endif()
 else()
     # Enable ARM64 dotprod
     if (MSVC)
@@ -34,10 +39,6 @@ else()
     else()
         s_compile_options(PRIVATE -march=armv8.3-a+dotprod)
     endif()
-endif()
-if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set_source_files_properties(${oodle_data_SOURCE_DIR}/texture/rrdxt1vqhelp_avx512.cpp PROPERTIES COMPILE_FLAGS "-mavx512f -mavx512vl -mavx512dq -mavx512bw")
-    set_source_files_properties(${oodle_data_SOURCE_DIR}/texture/rrdxtcblock_avx512.cpp PROPERTIES COMPILE_FLAGS "-mavx512f -mavx512vl -mavx512dq -mavx512bw")
 endif()
 s_compile_definitions(PRIVATE ${PROJ_DEF} OODLE_BUILDING_TEXTURE)
 
