@@ -9,13 +9,6 @@ s_include_directories(INTERFACE ${CMAKE_SOURCE_DIR}/../Engine/Source/Runtime/Ood
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|i386|i686|x86)$")
     s_set_arch(AVX2)
-else()
-    if(WIN32)
-        # Suppress specific warnings/errors for Windows ARM64 with clang-cl
-        if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-            s_compile_options(PRIVATE -Wno-error=incompatible-pointer-types)
-        endif()
-    endif()
 endif()
 s_set_cxx_standard(20)
 s_compile_definitions(PRIVATE ${PROJ_DEF} OODLE_BUILDING_DATA)
