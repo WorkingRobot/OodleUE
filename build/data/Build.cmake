@@ -10,13 +10,11 @@ s_include_directories(INTERFACE ${CMAKE_SOURCE_DIR}/../Engine/Source/Runtime/Ood
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|i386|i686|x86)$")
     s_set_arch(AVX2)
 else()
-    # Enable ARM64 dotprod
-    if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    if(NOT WIN32)
+        # Enable ARM64 dotprod
         s_compile_options(PRIVATE -march=armv8.3-a+dotprod)
-    endif()
-
-    # Fix clang-cl missing intrin.h inclusion
-    if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        # Fix clang-cl missing intrin.h inclusion
         s_compile_options(PRIVATE /FIintrin.h)
     endif()
 endif()
