@@ -19,7 +19,7 @@ set(PROJECT_DESCRIPTION "Oodle is a family of solutions for efficient data compr
 s_get_version_info(DEFAULT_BRANCH "main" NO_VCPKG)
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES C CXX)
 
-message(STATUS "Compiling ${PROJECT_NAME} ${PROJECT_VERSION} for ${CMAKE_SYSTEM_NAME}")
+message(STATUS "Compiling ${PROJECT_NAME} ${PROJECT_VERSION} for ${CMAKE_SYSTEM_NAME} with ${CMAKE_CXX_COMPILER_ID} on ${CMAKE_SYSTEM_PROCESSOR}")
 
 ## Set output directories ##
 
