@@ -34,11 +34,9 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|i386|i686|x86)$")
     endif()
 else()
     # Enable ARM64 dotprod
-    # if (MSVC)
-    #     s_compile_options(PRIVATE /arch:armv8.3)
-    # else()
-    #     s_compile_options(PRIVATE -march=armv8.3-a+dotprod)
-    # endif()
+    if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        s_compile_options(PRIVATE -march=armv8.3-a+dotprod)
+    endif()
 
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         # error: no known conversion for argument 1 from 'uint32x4_t' to 'int32x4_t'
