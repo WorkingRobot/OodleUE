@@ -66,10 +66,16 @@ for future in as_completed(futures):
             print(f"{file_name} ({idx}/{len(files)})", flush=True)
 print("::endgroup::", flush=True)
 
-print("Moving includes", flush=True)
-shutil.copytree("unreal/Engine/Source/Runtime/OodleDataCompression/Sdks", "Engine/Source/Runtime/OodleDataCompression/Sdks", dirs_exist_ok=True)
-shutil.copytree("unreal/Engine/Plugins/Developer/TextureFormatOodle/Sdks", "Engine/Plugins/Developer/TextureFormatOodle/Sdks", dirs_exist_ok=True)
-shutil.copytree("unreal/Engine/Plugins/Compression/OodleNetwork/Sdks", "Engine/Plugins/Compression/OodleNetwork/Sdks", dirs_exist_ok=True)
+print("::group::Moving includes", flush=True)
+def movetree(dst):
+    src = f"unreal/{dst}"
+    print(dst, flush=True)
+    if os.path.exists(src):
+        shutil.copytree(src, dst, dirs_exist_ok=True)
+movetree("Engine/Source/Runtime/OodleDataCompression/Sdks")
+movetree("Engine/Plugins/Developer/TextureFormatOodle/Sdks")
+movetree("Engine/Plugins/Compression/OodleNetwork/Sdks")
+print("::endgroup::", flush=True)
 
 print("::group::Extracting zips", flush=True)
 for file in glob.glob("Engine/**/*.zip", recursive=True):

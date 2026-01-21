@@ -17,15 +17,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           persist-credentials: false
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: "pypy3.9"
-          cache: "pip"
+          python-version: pypy3.9
+          cache: pip
 
       - name: Install Python Dependencies
         run: pip install -r requirements.txt
@@ -40,14 +40,14 @@ jobs:
 
       - name: Cache Unreal Engine
         id: cache-unreal
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: unreal
           key: unreal-${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
 
       - name: Checkout Unreal Engine
         if: steps.cache-unreal.outputs.cache-hit != 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{fromJson(steps.get-unreal-ref.outputs.data).commit.sha}}
           repository: EpicGames/UnrealEngine
@@ -94,9 +94,9 @@ jobs:
           - configure-preset: clang-cl
             arch: x64
             os: windows-latest
-          # - configure-preset: clang-cl
-          #   arch: arm64
-          #   os: windows-11-arm
+          - configure-preset: clang-cl
+            arch: arm64
+            os: windows-11-arm
           - configure-preset: clang
             arch: x64
             os: ubuntu-latest
@@ -109,12 +109,15 @@ jobs:
           - configure-preset: gcc
             arch: arm64
             os: ubuntu-24.04-arm
+        exclude:
+          - configure-preset: clang-cl
+            arch: arm64
 
     runs-on: ${{matrix.os}}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{github.ref}}
 
@@ -138,7 +141,7 @@ jobs:
         run: python zip_artifacts.py '${{github.workspace}}/build/builds/${{matrix.configure-preset}}' '${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}.zip'
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}
           path: ${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}.zip
@@ -153,12 +156,12 @@ jobs:
 
     steps:
       - name: Grab Python File
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           sparse-checkout: create_release.py
 
       - name: Download Built Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           path: artifacts
 
