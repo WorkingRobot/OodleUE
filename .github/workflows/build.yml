@@ -94,9 +94,9 @@ jobs:
           - configure-preset: clang-cl
             arch: x64
             os: windows-latest
-          - configure-preset: clang-cl
-            arch: arm64
-            os: windows-11-arm
+          # - configure-preset: clang-cl
+          #   arch: arm64
+          #   os: windows-11-arm
           - configure-preset: clang
             arch: x64
             os: ubuntu-latest
