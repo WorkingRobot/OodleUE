@@ -73,7 +73,7 @@ def movetree(dst):
     if os.path.exists(src):
         shutil.copytree(src, dst, dirs_exist_ok=True)
 movetree("Engine/Source/Runtime/OodleDataCompression/Sdks")
-movetree("Engine/Plugins/Developer/TextureFormatOodle/Sdks")
+movetree("Engine/Source/Developer/TextureFormatOodle/Sdks")
 movetree("Engine/Plugins/Compression/OodleNetwork/Sdks")
 print("::endgroup::", flush=True)
 

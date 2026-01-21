@@ -13,7 +13,7 @@ include(${smake_SOURCE_DIR}/smake.cmake)
 ## Project Definition ##
 
 set(PROJECT_NAME "oodle")
-set(PROJECT_VERSION "2.9.14")
+set(PROJECT_VERSION "2.9.15")
 set(PROJECT_DESCRIPTION "Oodle is a family of solutions for efficient data compression.")
 
 s_get_version_info(DEFAULT_BRANCH "main" NO_VCPKG)
@@ -55,7 +55,7 @@ FetchContent_DeclareWithPatch(
 
 FetchContent_DeclareWithPatch(
   texture
-  ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_texture_${PROJECT_VERSION}.zip
+  ${CMAKE_SOURCE_DIR}/../Engine/Source/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_texture_${PROJECT_VERSION}.zip
 )
 
 FetchContent_DeclareWithPatch(

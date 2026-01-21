@@ -23,7 +23,7 @@ s_end_sources()
 s_include_directories(PRIVATE ${oodle_data_SOURCE_DIR}/core)
 s_include_directories(PRIVATE ${oodle_data_SOURCE_DIR}/core/public)
 s_include_directories(PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include)
-s_include_directories(INTERFACE ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/include)
+s_include_directories(INTERFACE ${CMAKE_SOURCE_DIR}/../Engine/Source/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/include)
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|i386|i686|x86)$")
     s_set_arch(AVX2)
