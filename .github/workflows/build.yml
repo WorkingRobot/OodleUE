@@ -138,13 +138,13 @@ jobs:
           buildPreset: "${{matrix.configure-preset}}-${{matrix.build-preset}}"
 
       - name: Zip Artifacts
-        run: python zip_artifacts.py '${{github.workspace}}/build/builds/${{matrix.configure-preset}}' '${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}.zip'
+        run: python zip_artifacts.py '${{github.workspace}}/build/builds/${{matrix.configure-preset}}' '${{matrix.configure-preset}}-${{matrix.arch}}-${{matrix.build-preset}}.zip'
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v6
         with:
-          name: ${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}
-          path: ${{matrix.configure-preset}}-${{matrix.build-preset}}-${{matrix.arch}}.zip
+          name: ${{matrix.configure-preset}}-${{matrix.arch}}-${{matrix.build-preset}}
+          path: ${{matrix.configure-preset}}-${{matrix.arch}}-${{matrix.build-preset}}.zip
 
   release:
     name: Create Release
