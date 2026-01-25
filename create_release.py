@@ -14,7 +14,6 @@ for name in zip_files:
         grouped_zips[name_type].append(name)
 
 for group, files in grouped_zips.items():
-    continue
     with zipfile.ZipFile(group + '.zip', mode='w', compression=zipfile.ZIP_DEFLATED) as zip_file:
         for file in files:
             with zipfile.ZipFile(file, mode='r') as sub_zip:
