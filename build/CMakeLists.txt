@@ -53,24 +53,24 @@ FetchContent_DeclareWithPatch(
   ${CMAKE_SOURCE_DIR}/../Engine/Source/Runtime/OodleDataCompression/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_data_${PROJECT_VERSION}.zip
 )
 
-FetchContent_DeclareWithPatch(
-  texture
-  ${CMAKE_SOURCE_DIR}/../Engine/Source/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_texture_${PROJECT_VERSION}.zip
-)
+#FetchContent_DeclareWithPatch(
+#  texture
+#  ${CMAKE_SOURCE_DIR}/../Engine/Source/Developer/TextureFormatOodle/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_texture_${PROJECT_VERSION}.zip
+#)
 
 FetchContent_DeclareWithPatch(
   network
   ${CMAKE_SOURCE_DIR}/../Engine/Plugins/Compression/OodleNetwork/Sdks/${PROJECT_VERSION}/src/oodle2_src_for_unreal_network_${PROJECT_VERSION}.zip
 )
 
-FetchContent_MakeAvailable(oodle_data oodle_texture oodle_network)
+FetchContent_MakeAvailable(oodle_data oodle_network)
 
-file(COPY ${oodle_texture_SOURCE_DIR}/texture DESTINATION ${oodle_data_SOURCE_DIR})
+#file(COPY ${oodle_texture_SOURCE_DIR}/texture DESTINATION ${oodle_data_SOURCE_DIR})
 file(COPY ${oodle_network_SOURCE_DIR}/network DESTINATION ${oodle_data_SOURCE_DIR})
 
 ## Add projects ##
 
 add_subdirectory(data)
-add_subdirectory(texture)
+#add_subdirectory(texture)
 add_subdirectory(network)
 add_subdirectory(test)
